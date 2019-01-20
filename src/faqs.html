@@ -4,6 +4,14 @@
     // Webpage title
     var pageTitle = "FAQs";
     var pageTitleText = "All your Questions answered in one place";
+    
+    // This script runs after jQuery has been loaded
+    function RunAfterjQ(){
+        // remove un-used css
+        jQuery(document).ready(function($){ 
+            $('head').find('link#notAllPages').remove();
+        });
+    }    
 </script>
 
 				<div class="container clearfix">
