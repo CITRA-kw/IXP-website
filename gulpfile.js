@@ -37,5 +37,5 @@ gulp.task('default', gulp.series('message', 'clean', 'copy', 'de-template'), fun
     
 });
 
-gulp.watch(['src/*.html', 'src/partials/*'], gulp.series('de-template'));
+//gulp.watch(['src/*.html', 'src/partials/*'], gulp.series('de-template'));
 
