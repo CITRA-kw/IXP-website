@@ -34,7 +34,7 @@ gulp.task('clean', function(done){
 
 // Default task
 gulp.task('default', gulp.series('message', 'clean', 'copy', 'de-template'), function() {
-    
+    done();
 });
 
 //gulp.watch(['src/*.html', 'src/partials/*'], gulp.series('de-template'));
