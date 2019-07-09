@@ -1,6 +1,8 @@
 const gulp = require('gulp');
 const headerfooter = require('gulp-headerfooter');
 const del = require('del');
+const browserSync = require('browser-sync').create();
+const reload      = browserSync.reload;
 
 
 // Message task
@@ -37,5 +39,16 @@ gulp.task('default', gulp.series('message', 'clean', 'copy', 'de-template'), fun
     done();
 });
 
-//gulp.watch(['src/*.html', 'src/partials/*'], gulp.series('de-template'));
+gulp.task('watch', function() {
+
+    // Serve files from the root of this project
+    browserSync.init({
+        server: {
+            baseDir: "./dist/"
+        }
+    });
+
+	gulp.watch(['src/*.html', 'src/partials/*'], gulp.series('copy','de-template')).on("change", reload);;
+});
+
 
