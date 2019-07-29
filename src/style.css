@@ -13751,6 +13751,13 @@ body:not(.no-transition) #wrapper,
 }
 
 
+/* Added by Saleh */
 
+#page-title {display: none;}
+
+@media screen and (max-width: 768px) {
+#page-title {display: block;}
+
+}
 
 
