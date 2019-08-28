@@ -1,0 +1,86 @@
+
+
+<script>
+    // Webpage title
+    var pageTitle = "Members";
+    var pageTitleText = "List of members connected to us";
+    
+    // This script runs after jQuery has been loaded
+    function RunAfterjQ(){
+        // remove un-used css
+        jQuery(document).ready(function($){ 
+            
+            console.log("** Running JQuery code at the end.");
+            
+            $('head').find('link#notAllPages').remove();
+            var neighbours;
+            
+           /* $.ajax({
+                    type : "Get",
+                    url: 'http://lg.ix.kw/api/v1/routeservers/0/neighbors',
+                    dataType: 'json',
+                    success: function(json) {
+                        $('#members_table').DataTable( {
+                                data: json,
+                                columns: [
+                                    { "neighbours": "asn" },
+                                    { "neighbours": "description" },
+                                    { "neighbours": "state" }
+                                ]
+                        } );
+
+                        neighbours = json.neighbours;
+                        //base = json.base;
+                        //console.log(rates);
+                    }
+            });     */       
+            
+            $('#members_table').DataTable( {
+                "processing": true,
+                "ajax": "data/objects_deep.txt",
+                "columns": [
+                { "neighbours": "asn" },
+                { "neighbours": "description" },
+                { "neighbours": "state" }
+                ]
+            } );        
+            
+        });
+    }    
+</script>
+
+				<div class="container clearfix">
+
+					<!-- Post Content
+					============================================= -->
+					<div class="postcontent nobottommargin clearfix">
+
+                        
+						<div class="clear"></div>
+
+						<div id="members" class="members">
+                            <table id="members_table" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>AS #</th>
+                                            <th>Description</th>
+                                            <th>State</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>AS #</th>
+                                            <th>Description</th>
+                                            <th>State</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+						</div>
+
+
+					</div><!-- .postcontent end -->
+
+					
+
+				</div>
+
