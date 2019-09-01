@@ -15,35 +15,32 @@
             $('head').find('link#notAllPages').remove();
             var neighbours;
             
-           /* $.ajax({
-                    type : "Get",
-                    url: 'http://lg.ix.kw/api/v1/routeservers/0/neighbors',
-                    dataType: 'json',
-                    success: function(json) {
-                        $('#members_table').DataTable( {
-                                data: json,
-                                columns: [
-                                    { "neighbours": "asn" },
-                                    { "neighbours": "description" },
-                                    { "neighbours": "state" }
-                                ]
-                        } );
-
-                        neighbours = json.neighbours;
-                        //base = json.base;
-                        //console.log(rates);
-                    }
-            });     */       
-            
-            $('#members_table').DataTable( {
-                "processing": true,
-                "ajax": "data/objects_deep.txt",
-                "columns": [
-                { "neighbours": "asn" },
-                { "neighbours": "description" },
-                { "neighbours": "state" }
+            $('#members_table').dataTable( {
+              "ajax": {
+                "url": "http://lg.ix.kw/api/v1/routeservers/0/neighbors",
+                "dataSrc": function (json) {
+                  var return_data = new Array();
+                  console.log(json.neighbours[0].asn);
+                  console.log(json.neighbours.length);
+                    
+                  for(var i=0;i< json.neighbours.length; i++){
+                    return_data.push({
+                      'asn': json.neighbours[i].asn,
+                      'description'  : json.neighbours[i].description,
+                      'state' : json.neighbours[i].state
+                    });
+                  }
+                  console.log(return_data);
+                  return return_data;
+                }
+              }, 
+                "columns"    : [
+                    {'data': 'asn'},
+                    {'data': 'description'},
+                    {'data': 'state'}
                 ]
-            } );        
+            } );
+            
             
         });
     }    
