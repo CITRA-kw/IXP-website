@@ -15,20 +15,27 @@
             $('head').find('link#notAllPages').remove();
             var neighbours;
             
-            $('#members_table').dataTable( {
+            $('#members_table').dataTable( { "pageLength": 50,
               "ajax": {
                 "url": "http://lg.ix.kw/api/v1/routeservers/0/neighbors",
                 "dataSrc": function (json) {
                   var return_data = new Array();
-                  console.log(json.neighbours[0].asn);
-                  console.log(json.neighbours.length);
-                    // check for duplicates
+                  //console.log(json.neighbours[0].asn);
+                  //console.log(json.neighbours.length);
+                  var addedEntries = {};
                     
                   for(var i=0;i< json.neighbours.length; i++){
+                    var neighbour =  json.neighbours[i];
+                      
+                    if(addedEntries[neighbour.asn]) {
+                        continue;
+                    }
+                    addedEntries[neighbour.asn] = true;  
+                      
                     return_data.push({
                       'asn': json.neighbours[i].asn,
                       'description'  : json.neighbours[i].description,
-                      'state' : json.neighbours[i].state
+                      'state' : 'up'//json.neighbours[i].state
                     });
                   }
                   console.log(return_data);
