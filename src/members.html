@@ -17,7 +17,7 @@
             
             $('#members_table').dataTable( { "pageLength": 50,
               "ajax": {
-                "url": "http://lg.ix.kw/api/v1/routeservers/0/neighbors",
+                "url": "https://lg.ix.kw/api/v1/routeservers/0/neighbors",
                 "dataSrc": function (json) {
                   var return_data = new Array();
                   //console.log(json.neighbours[0].asn);
@@ -65,7 +65,7 @@
                         </div>
 
 						<div id="members" class="members">
-                            <h3><a href="http://lg.ix.kw">IX.KW Looking Glass</a></h3>
+                            <h3><a href="https://lg.ix.kw">IX.KW Looking Glass</a></h3>
                             <table id="members_table" class="display" style="width:100%">
                                     <thead>
                                         <tr>
