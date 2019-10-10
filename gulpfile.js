@@ -30,7 +30,7 @@ gulp.task('de-template', function(done) {
 // Emptying dist directory
 gulp.task('clean', function(done){
     console.log('Emptying dist directory...');
-     del('dist/**/*', {force:true});
+    del.sync('dist/**/*', {force:true});
     done();
 });
 
