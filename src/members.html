@@ -1,58 +1,84 @@
 
 
 <script>
-    // Webpage title
-    var pageTitle = "Members";
-    var pageTitleText = "List of members connected to us";
-    
-    // This script runs after jQuery has been loaded
-    function RunAfterjQ(){
-        // remove un-used css
-        jQuery(document).ready(function($){ 
-            
-            console.log("** Running JQuery code at the end.");
-            
-            $('head').find('link#notAllPages').remove();
-            var neighbours;
-            
-            $('#members_table').dataTable( { "pageLength": 50,
-              "ajax": {
+// Webpage title
+var pageTitle = "Members";
+var pageTitleText = "List of members connected to us";
+
+// This script runs after jQuery has been loaded
+function RunAfterjQ() {
+    // remove un-used css
+    jQuery(document).ready(function ($) {
+
+        console.log("** Running JQuery code at the end.");
+
+        $('head').find('link#notAllPages').remove();
+        var neighbours;
+
+        $('#members_table').dataTable({
+            "pageLength": 50,
+            "ajax": {
                 "url": "https://lg.ix.kw/api/v1/routeservers/0/neighbors",
                 "dataSrc": function (json) {
-                  var return_data = new Array();
-                  //console.log(json.neighbours[0].asn);
-                  //console.log(json.neighbours.length);
-                  var addedEntries = {};
-                    
-                  for(var i=0;i< json.neighbours.length; i++){
-                    var neighbour =  json.neighbours[i];
-                      
-                    if(addedEntries[neighbour.asn]) {
-                        continue;
+                    var return_data = new Array();
+                    //console.log(json.neighbours[0].asn);
+                    //console.log(json.neighbours.length);
+                    var addedEntries = {}; // Check if this ASN already added to entries
+
+                    for (var i = 0; i < json.neighbours.length; i++) {
+                        var neighbour = json.neighbours[i];
+                        
+                        // First correct the state: anything other than 'up' is considered 'down'
+                        if (neighbour.state != 'up') neighbour.state = 'down';                        
+                        
+                        // but first make sure to check state is not down, anything other than 'up' is considered 'down'
+                        if (addedEntries[neighbour.asn]) {
+                            if (neighbour.state != 'up') continue; // if already 'up' then ignore it, because it doesn't change the state of previous one
+                            
+                            // Then correct the ASN state if the previous state is 'up'
+                            return_data.forEach(function(item, index) {
+                                if(item.asn == neighbour.asn) {
+                                    item.state = neighbour.state;
+                                }
+                            });
+                            
+                            continue;
+                        }
+                        
+                        addedEntries[neighbour.asn] = true;
+                        
+                        
+                        return_data.push({
+                            'asn': neighbour.asn,
+                            'description': neighbour.description,
+                            'state': neighbour.state 
+                        });
                     }
-                    addedEntries[neighbour.asn] = true;  
-                    var state = json.neighbours[i].state;
-                    if(state != 'up') state = 'down';
-                    return_data.push({
-                      'asn': json.neighbours[i].asn,
-                      'description'  : json.neighbours[i].description,
-                      'state' : state //json.neighbours[i].state
-                    });
-                  }
-                  console.log(return_data);
-                  return return_data;
+                    console.log(return_data);
+                    return return_data;
                 }
-              }, 
-                "columns"    : [
-                    {'data': 'asn'},
-                    {'data': 'description'},
-                    {'data': 'state'}
-                ]
-            } );
-            
-            
+            },
+            "columns": [
+                {
+                    'data': 'asn',
+                    "render": function (data, type, row, meta) {
+                        if (type === 'display') {
+                            data = '<a href="https://stat.ripe.net/AS' + data + '">' + data + '</a>';
+                        }
+                        return data;
+                    }
+            },
+                {
+                    'data': 'description'
+            },
+                {
+                    'data': 'state'
+            }
+        ]
         });
-    }    
+    });
+}
+
 </script>
 
 				<div class="container clearfix">
