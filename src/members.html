@@ -31,11 +31,12 @@
                         continue;
                     }
                     addedEntries[neighbour.asn] = true;  
-                      
+                    var state = json.neighbours[i].state;
+                    if(state != 'up') state = 'down';
                     return_data.push({
                       'asn': json.neighbours[i].asn,
                       'description'  : json.neighbours[i].description,
-                      'state' : 'up'//json.neighbours[i].state
+                      'state' : state //json.neighbours[i].state
                     });
                   }
                   console.log(return_data);
