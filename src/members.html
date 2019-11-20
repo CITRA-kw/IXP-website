@@ -33,9 +33,9 @@ function RunAfterjQ() {
                         
                         // but first make sure to check state is not down, anything other than 'up' is considered 'down'
                         if (addedEntries[neighbour.asn]) {
-                            if (neighbour.state != 'up') continue; // if already 'up' then ignore it, because it doesn't change the state of previous one
+                            if (neighbour.state != 'up') continue; // if already not 'up' then ignore it, because it doesn't change the state of previous one
                             
-                            // Then correct the ASN state if the previous state is 'up'
+                            // Then correct the ASN state if the previous state is not 'up'
                             return_data.forEach(function(item, index) {
                                 if(item.asn == neighbour.asn) {
                                     item.state = neighbour.state;
